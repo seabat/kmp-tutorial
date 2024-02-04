@@ -1,0 +1,9 @@
+package dev.seabat.kmp.tutorial
+
+class Greeting {
+    private val platform = getPlatform()
+
+    fun greet(): String {
+        return "Hello, ${platform.name}!"
+    }
+}
