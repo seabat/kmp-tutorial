@@ -1,6 +1,6 @@
-package dev.seabat.kmp.tutorial
+package dev.seabat.kmp.tutorial.shared
 
-class Greeting {
+class GreetingShared {
     private val platform = getPlatform()
 
     fun greet(): String {
