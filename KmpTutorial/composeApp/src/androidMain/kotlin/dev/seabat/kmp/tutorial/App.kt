@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.seabat.kmp.tutorial.shared.GreetingShared
 
-
 @Composable
 @Preview
 fun App() {
@@ -30,7 +29,10 @@ fun App() {
             }
             AnimatedVisibility(showContent) {
                 val greeting = remember { GreetingShared().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Image(painterResource(R.drawable.compose_multiplatform), null)
                     Text("Compose: $greeting")
                 }
