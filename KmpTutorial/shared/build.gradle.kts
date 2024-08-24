@@ -49,4 +49,10 @@ android {
                 .get()
                 .toInt()
     }
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            consumerProguardFiles("consumer-rules.pro")
+        }
+    }
 }
