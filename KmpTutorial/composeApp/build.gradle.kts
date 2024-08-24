@@ -62,6 +62,11 @@ android {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+            resValue("string", "app_name", "[STG]KMP Tutorial")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
