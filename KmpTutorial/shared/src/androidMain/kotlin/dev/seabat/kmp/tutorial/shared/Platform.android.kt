@@ -1,4 +1,4 @@
-package dev.seabat.kmp.tutorial
+package dev.seabat.kmp.tutorial.shared
 
 import android.os.Build
 
