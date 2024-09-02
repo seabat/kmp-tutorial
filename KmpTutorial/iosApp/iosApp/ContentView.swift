@@ -3,6 +3,8 @@ import Shared
 
 struct ContentView: View {
     @State private var showContent = false
+    let phrases = GreetingShared().greet()
+    
     var body: some View {
         VStack {
             Button("Click me!") {
@@ -16,7 +18,9 @@ struct ContentView: View {
                     Image(systemName: "swift")
                         .font(.system(size: 200))
                         .foregroundColor(.accentColor)
-                    Text("SwiftUI: \(GreetingShared().greet())")
+                    List(phrases, id: \.self) {
+                        Text($0)
+                    }
                 }
                 .transition(.move(edge: .top).combined(with: .opacity))
             }
