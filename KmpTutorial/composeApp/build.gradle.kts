@@ -22,8 +22,8 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.androidx.material3.android)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.jetbrains.lifecycle.viewmodel)
+            implementation(libs.jetbrains.lifecycle.viewmodel.compose)
             implementation(projects.shared)
         }
     }
@@ -78,4 +78,7 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
+}
+dependencies {
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
 }
