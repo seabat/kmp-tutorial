@@ -5,7 +5,6 @@ struct ContentView: View {
     @ObservedObject private(set) var viewModel: ViewModel
     
     @State private var showContent = false
-    let phrases = GreetingShared().greet()
     
     var body: some View {
         VStack {
@@ -20,7 +19,7 @@ struct ContentView: View {
                     Image(systemName: "swift")
                         .font(.system(size: 200))
                         .foregroundColor(.accentColor)
-                    List(phrases, id: \.self) {
+                    List(viewModel.phrases, id: \.self) {
                         Text($0)
                     }.frame(height: 200)
                     Text(viewModel.rocketLaunchPhrase).task {
@@ -38,8 +37,17 @@ struct ContentView: View {
 extension ContentView {
     @MainActor
     class ViewModel: ObservableObject {
+        let viewModel: GreetingViewModel
         @Published var rocketLaunchPhrase: String = ""
+        @Published var phrases:[String] = []
 
+        init() {
+            viewModel = GreetingViewModel()
+            viewModel.observePhrases { phrases in
+                self.phrases = phrases
+            }
+        }
+        
         func startObserving() async {
             for await phrase in RocketLaunchShared().getLaunchPhraseFlow() {
                 self.rocketLaunchPhrase = phrase

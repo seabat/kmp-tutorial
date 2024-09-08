@@ -35,9 +35,11 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.koin.core)
         }
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
+            implementation(libs.androidx.lifecycle.viewmodel.ktx)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
