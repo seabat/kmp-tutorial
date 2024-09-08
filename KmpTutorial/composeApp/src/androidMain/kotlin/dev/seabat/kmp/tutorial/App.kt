@@ -17,13 +17,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.seabat.kmp.tutorial.shared.GreetingShared
 
 @Composable
 @Preview
-fun App() {
+fun App(mainViewModel: MainViewModel = viewModel()) {
     MaterialTheme {
+        val rocketLaunchPhrase by mainViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
         var showContent by remember { mutableStateOf(false) }
+
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             Button(onClick = { showContent = !showContent }) {
                 Text("Click me!")
@@ -39,6 +43,7 @@ fun App() {
                         Text(greeting)
                         HorizontalDivider()
                     }
+                    Text(rocketLaunchPhrase)
                 }
             }
         }
