@@ -25,6 +25,9 @@ struct ContentView: View {
                     Text(viewModel.rocketLaunchPhrase).task {
                         await self.viewModel.startObserving()
                     }
+                    Text(viewModel.grepResult.description).task {
+                        await self.viewModel.startGrep()
+                    }
                 }
                 .transition(.move(edge: .top).combined(with: .opacity))
             }
@@ -41,6 +44,9 @@ extension ContentView {
         @Published var rocketLaunchPhrase: String = ""
         @Published var phrases:[String] = []
 
+        @Published var grepResult: [String] = []
+        private var didGrep = false
+        
         init() {
             viewModel = GreetingViewModel()
             viewModel.observePhrases { phrases in
@@ -52,6 +58,19 @@ extension ContentView {
             for await phrase in RocketLaunchShared().getLaunchPhraseFlow() {
                 self.rocketLaunchPhrase = phrase
             }
+        }
+        
+        func startGrep() async {
+            guard !self.didGrep else { return } // 初回表示時のみ実行
+            self.didGrep = true
+            
+            grep(
+                lines: ["123 abc", "abc 123", "123 ABC", "ABC 123"],
+                pattern: String("[A-Z]+"),
+                action: {(result: String) -> Void in
+                    self.grepResult.append(result)
+                }
+            )
         }
     }
 }

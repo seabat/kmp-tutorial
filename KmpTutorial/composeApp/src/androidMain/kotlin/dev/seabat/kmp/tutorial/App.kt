@@ -28,6 +28,7 @@ fun App(mainViewModel: MainViewModel = viewModel()) {
     MaterialTheme {
         val rocketLaunchPhrase by mainViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
         var showContent by remember { mutableStateOf(false) }
+        val grepResult by mainViewModel.grepResult.collectAsStateWithLifecycle()
 
         val viewModel = remember { GreetingViewModel() }
         val phrases by viewModel.phrases.collectAsStateWithLifecycle()
@@ -51,6 +52,7 @@ fun App(mainViewModel: MainViewModel = viewModel()) {
                         HorizontalDivider()
                     }
                     Text(rocketLaunchPhrase)
+                    Text(grepResult.toString())
                 }
             }
         }
