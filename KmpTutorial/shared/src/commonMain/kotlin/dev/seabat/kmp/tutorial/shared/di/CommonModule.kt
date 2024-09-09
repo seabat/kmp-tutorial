@@ -14,7 +14,8 @@ fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
     appDeclaration()
     modules(
         repositoryModule,
-        viewModelModule
+        viewModelModule,
+        platformModule
     )
 }
 
@@ -25,7 +26,8 @@ fun initKoin() {
     startKoin {
         modules(
             repositoryModule,
-            viewModelModule
+            viewModelModule,
+            platformModule
         )
     }
 }
@@ -36,6 +38,6 @@ private val viewModelModule = module {
 }
 
 private val repositoryModule = module {
-    single<PlatformSourceContract> { PlatformSource() }
+    single<PlatformSourceContract> { PlatformSource(get()) }
     single<PlatformRepositoryContract> { PlatformRepository(get()) }
 }

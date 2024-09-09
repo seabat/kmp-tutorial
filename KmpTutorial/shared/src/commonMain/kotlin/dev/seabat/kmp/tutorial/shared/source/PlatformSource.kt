@@ -1,6 +1,5 @@
 package dev.seabat.kmp.tutorial.shared.source
 
-class PlatformSource : PlatformSourceContract {
-    private val platform = getPlatform()
+class PlatformSource(private val platform: PlatformContract) : PlatformSourceContract {
     override fun getPlatformName(): String = platform.name
 }

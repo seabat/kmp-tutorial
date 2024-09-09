@@ -1,7 +1,5 @@
 package dev.seabat.kmp.tutorial.shared.source
 
-interface Platform {
+interface PlatformContract {
     val name: String
 }
-
-expect fun getPlatform(): Platform
