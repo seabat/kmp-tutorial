@@ -1,8 +1,7 @@
 package dev.seabat.kmp.tutorial.shared.viewmodel
 
 import dev.seabat.kmp.tutorial.shared.CoroutineViewModel
-import dev.seabat.kmp.tutorial.shared.daysPhrase
-import dev.seabat.kmp.tutorial.shared.repository.PlatformRepositoryContract
+import dev.seabat.kmp.tutorial.shared.usecase.CreatePhrasesUseCaseContract
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -13,7 +12,7 @@ import org.koin.core.component.inject
 class GreetingViewModel :
     CoroutineViewModel(),
     KoinComponent {
-    private val platformRepository: PlatformRepositoryContract by inject()
+    private val createPhrasesUseCase: CreatePhrasesUseCaseContract by inject()
 
     private val _phrases = MutableStateFlow<List<String>>(emptyList())
     val phrases: StateFlow<List<String>> = _phrases
@@ -26,10 +25,7 @@ class GreetingViewModel :
     fun loadPhrases() =
         coroutineScope.launch {
             _phrases.update {
-                buildList {
-                    add("Hello, ${platformRepository.getPlatformName()}!")
-                    add(daysPhrase())
-                }
+                createPhrasesUseCase.invoke()
             }
         }
 
@@ -43,10 +39,7 @@ class GreetingViewModel :
     fun observePhrases(onChange: (List<String>) -> Unit) {
         coroutineScope.launch {
             onChange(
-                buildList {
-                    add("Hello, ${platformRepository.getPlatformName()}!")
-                    add(daysPhrase())
-                }
+                createPhrasesUseCase.invoke()
             )
         }
     }
