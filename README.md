@@ -23,3 +23,20 @@ Kotlin Multiplatform の[公式チュートリアル](https://www.jetbrains.com/
 <img src="https://github.com/user-attachments/assets/50e24aad-ef37-4db7-8980-43d86277a51a" alt="Androidのスクショ" width="250px"> <img src="https://github.com/user-attachments/assets/92c95083-85b1-4040-b2f7-b304c0b86e27" alt="iOSのスクショ" width="250px"> 
 
 
+## CmpTutorial
+
+#### 概要
+
+Android/iOS をターゲットとする Compose Multiplatform プロジェクトを作る際のベースとして使用されることを目的としている。  
+Compose Multiplatform の[公式チュートリアル](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html) 実施後に以下のカスタマイズを加えている。
+
+- composeApp/src/commonMain/ にある Greeting#greet を iOS プロジェクトから呼び出す
+
+#### スクリーンショット
+
+https://github.com/user-attachments/assets/b90d888b-100e-499e-977f-a2e1e9039ce1 
+
+https://github.com/user-attachments/assets/dc5ef4d3-b018-4138-8dbf-ae37699135f1
+
+
+
