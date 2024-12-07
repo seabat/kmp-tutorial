@@ -27,6 +27,9 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(
                             goToGreeting = { grepResult ->
                                 navController.navigate(Greeting(name = grepResult, id = 10))
+                            },
+                            goToGrep = {
+                                navController.navigate(Grep)
                             }
                         )
                     }
@@ -35,6 +38,13 @@ class MainActivity : ComponentActivity() {
                         GreetingScreen(
                             name = args.name,
                             id = args.id,
+                            goBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    composable<Grep> {
+                        GrepScreen(
                             goBack = {
                                 navController.popBackStack()
                             }
@@ -54,6 +64,9 @@ data class Greeting(
     val name: String,
     val id: Int,
 )
+
+@Serializable
+object Grep
 
 @Preview
 @Composable

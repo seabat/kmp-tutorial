@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -16,30 +15,22 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingSharedViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Composable
 @Preview
-fun GreetingScreen(
-    name: String = "",
-    id: Int = 0,
+@Composable
+fun GrepScreen(
+    grepViewModel: GrepViewModel = viewModel(),
     goBack: () -> Unit = {}
 ) {
 
-    val greetingSharedViewModel = remember { GreetingSharedViewModel() }
-    val phrases by greetingSharedViewModel.phrases.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        greetingSharedViewModel.loadPhrases()
-    }
+    val grepResult by grepViewModel.grepResult.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -50,7 +41,7 @@ fun GreetingScreen(
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
-                    Text("Greeting")
+                    Text("Grep")
                 },
                 navigationIcon = {
                     IconButton(onClick = goBack) {
@@ -68,12 +59,7 @@ fun GreetingScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Inside Greeting Screen, ${name}, $id")
-            HorizontalDivider()
-            phrases.forEach { phrase ->
-                Text(phrase)
-                HorizontalDivider()
-            }
+            Text(grepResult.toString())
         }
     }
 }

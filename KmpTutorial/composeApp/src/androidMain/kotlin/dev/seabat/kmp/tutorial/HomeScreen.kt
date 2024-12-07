@@ -5,10 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,24 +17,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingViewModel
 
 @Composable
 @Preview
 fun HomeScreen(
     homeViewModel: HomeViewModel = viewModel(),
-    goToGreeting: (String) -> Unit = {}
+    goToGreeting: (String) -> Unit = {},
+    goToGrep: () -> Unit = {}
 ) {
-        val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
-        var showContent by remember { mutableStateOf(false) }
-        val grepResult by homeViewModel.grepResult.collectAsStateWithLifecycle()
-
-    val viewModel = remember { GreetingViewModel() }
-    val phrases by viewModel.phrases.collectAsStateWithLifecycle()
-
-    LaunchedEffect(Unit) {
-        viewModel.loadPhrases()
-    }
+    val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
+    var showContent by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Button(onClick = { showContent = !showContent }) {
@@ -48,18 +38,14 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(painterResource(R.drawable.compose_multiplatform), null)
-                phrases.forEach { phrase ->
-                    Text(phrase)
-                    HorizontalDivider()
-                }
                 Text(rocketLaunchPhrase)
-                Text(grepResult.toString())
                 Button(onClick = { goToGreeting("HOMEから遷移") }) {
-                    Text("Next")
+                    Text("Go to Greeting")
+                }
+                Button(onClick = { goToGrep() }) {
+                    Text("Go to Grep")
                 }
             }
-            Text(rocketLaunchPhrase)
-            Text(grepResult.toString())
         }
     }
 }
