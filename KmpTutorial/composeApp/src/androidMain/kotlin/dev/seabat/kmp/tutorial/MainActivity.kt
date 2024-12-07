@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,21 @@ class MainActivity : ComponentActivity() {
                     startDestination = Home
                 ) {
                     composable<Home> {
-                        HomeScreen()
+                        HomeScreen(
+                            goToGreeting = { grepResult ->
+                                navController.navigate(Greeting(name = grepResult, id = 10))
+                            }
+                        )
+                    }
+                    composable<Greeting> {
+                        val args = it.toRoute<Greeting>()
+                        GreetingScreen(
+                            name = args.name,
+                            id = args.id,
+                            goBack = {
+                                navController.popBackStack()
+                            }
+                        )
                     }
                 }
             }
@@ -33,6 +48,12 @@ class MainActivity : ComponentActivity() {
 
 @Serializable
 object Home
+
+@Serializable
+data class Greeting(
+    val name: String,
+    val id: Int,
+)
 
 @Preview
 @Composable

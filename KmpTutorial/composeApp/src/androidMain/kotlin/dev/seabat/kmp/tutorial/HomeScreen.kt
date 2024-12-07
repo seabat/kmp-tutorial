@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,10 +23,13 @@ import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingViewModel
 
 @Composable
 @Preview
-fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
-    val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
-    var showContent by remember { mutableStateOf(false) }
-    val grepResult by homeViewModel.grepResult.collectAsStateWithLifecycle()
+fun HomeScreen(
+    homeViewModel: HomeViewModel = viewModel(),
+    goToGreeting: (String) -> Unit = {}
+) {
+        val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
+        var showContent by remember { mutableStateOf(false) }
+        val grepResult by homeViewModel.grepResult.collectAsStateWithLifecycle()
 
     val viewModel = remember { GreetingViewModel() }
     val phrases by viewModel.phrases.collectAsStateWithLifecycle()
@@ -52,7 +54,12 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                 }
                 Text(rocketLaunchPhrase)
                 Text(grepResult.toString())
+                Button(onClick = { goToGreeting("HOMEから遷移") }) {
+                    Text("Next")
+                }
             }
+            Text(rocketLaunchPhrase)
+            Text(grepResult.toString())
         }
     }
 }
