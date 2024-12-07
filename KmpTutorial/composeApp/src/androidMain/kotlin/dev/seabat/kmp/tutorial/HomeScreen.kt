@@ -24,11 +24,11 @@ import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingViewModel
 
 @Composable
 @Preview
-fun App(mainViewModel: MainViewModel = viewModel()) {
+fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     MaterialTheme {
-        val rocketLaunchPhrase by mainViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
+        val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
         var showContent by remember { mutableStateOf(false) }
-        val grepResult by mainViewModel.grepResult.collectAsStateWithLifecycle()
+        val grepResult by homeViewModel.grepResult.collectAsStateWithLifecycle()
 
         val viewModel = remember { GreetingViewModel() }
         val phrases by viewModel.phrases.collectAsStateWithLifecycle()

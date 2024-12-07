@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinter)
+    kotlin("plugin.serialization") version libs.versions.kotlin.get()
 }
 
 kotlin {
@@ -25,6 +26,9 @@ kotlin {
             implementation(libs.jetbrains.lifecycle.viewmodel)
             implementation(libs.jetbrains.lifecycle.viewmodel.compose)
             implementation(libs.koin.android)
+            implementation(libs.androidx.lifecycle.runtime.compose.android)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.kotlinx.serialization.json)
             implementation(projects.shared)
         }
     }
@@ -81,5 +85,5 @@ android {
     }
 }
 dependencies {
-    implementation(libs.androidx.lifecycle.runtime.compose.android)
+    // ここに置いても androidMain.dependencies に置いてもどちらでも良い
 }

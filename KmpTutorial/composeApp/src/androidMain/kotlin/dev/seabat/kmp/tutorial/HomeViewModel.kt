@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     private val _rocketLaunchPhrase = MutableStateFlow("")
     val rocketLaunchPhrase: StateFlow<String>
         get() = _rocketLaunchPhrase
