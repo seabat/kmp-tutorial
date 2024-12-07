@@ -25,35 +25,33 @@ import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingViewModel
 @Composable
 @Preview
 fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
-    MaterialTheme {
-        val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
-        var showContent by remember { mutableStateOf(false) }
-        val grepResult by homeViewModel.grepResult.collectAsStateWithLifecycle()
+    val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
+    var showContent by remember { mutableStateOf(false) }
+    val grepResult by homeViewModel.grepResult.collectAsStateWithLifecycle()
 
-        val viewModel = remember { GreetingViewModel() }
-        val phrases by viewModel.phrases.collectAsStateWithLifecycle()
+    val viewModel = remember { GreetingViewModel() }
+    val phrases by viewModel.phrases.collectAsStateWithLifecycle()
 
-        LaunchedEffect(Unit) {
-            viewModel.loadPhrases()
+    LaunchedEffect(Unit) {
+        viewModel.loadPhrases()
+    }
+
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Button(onClick = { showContent = !showContent }) {
+            Text("Click me!")
         }
-
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                Column(
-                    Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(painterResource(R.drawable.compose_multiplatform), null)
-                    phrases.forEach { phrase ->
-                        Text(phrase)
-                        HorizontalDivider()
-                    }
-                    Text(rocketLaunchPhrase)
-                    Text(grepResult.toString())
+        AnimatedVisibility(showContent) {
+            Column(
+                Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(painterResource(R.drawable.compose_multiplatform), null)
+                phrases.forEach { phrase ->
+                    Text(phrase)
+                    HorizontalDivider()
                 }
+                Text(rocketLaunchPhrase)
+                Text(grepResult.toString())
             }
         }
     }
