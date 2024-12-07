@@ -1,4 +1,4 @@
-package dev.seabat.kmp.tutorial
+package dev.seabat.kmp.tutorial.page.grep
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

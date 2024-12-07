@@ -1,4 +1,4 @@
-package dev.seabat.kmp.tutorial
+package dev.seabat.kmp.tutorial.page.greeting
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -15,21 +16,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingSharedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun RocketLaunchScreen(
-    rocketLaunchViewModel: RocketLaunchViewModel = viewModel(),
+@Preview
+fun GreetingScreen(
+    name: String = "",
+    id: Int = 0,
     goBack: () -> Unit = {}
 ) {
-    val rocketLaunchPhrase by rocketLaunchViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
+
+    val greetingSharedViewModel = remember { GreetingSharedViewModel() }
+    val phrases by greetingSharedViewModel.phrases.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        greetingSharedViewModel.loadPhrases()
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -40,7 +50,7 @@ fun RocketLaunchScreen(
                     titleContentColor = MaterialTheme.colorScheme.primary,
                 ),
                 title = {
-                    Text("Rocket Launch")
+                    Text("Greeting")
                 },
                 navigationIcon = {
                     IconButton(onClick = goBack) {
@@ -58,7 +68,12 @@ fun RocketLaunchScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(rocketLaunchPhrase)
+            Text(text = "Inside Greeting Screen, ${name}, $id")
+            HorizontalDivider()
+            phrases.forEach { phrase ->
+                Text(phrase)
+                HorizontalDivider()
+            }
         }
     }
 }

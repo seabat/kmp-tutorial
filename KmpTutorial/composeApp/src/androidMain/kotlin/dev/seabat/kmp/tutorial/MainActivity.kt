@@ -10,6 +10,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import dev.seabat.kmp.tutorial.page.greeting.GreetingScreen
+import dev.seabat.kmp.tutorial.page.grep.GrepScreen
+import dev.seabat.kmp.tutorial.page.home.HomeScreen
+import dev.seabat.kmp.tutorial.page.rocketlaunch.RocketLaunchScreen
 import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {

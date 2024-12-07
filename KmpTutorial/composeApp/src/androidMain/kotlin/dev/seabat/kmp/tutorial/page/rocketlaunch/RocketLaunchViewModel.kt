@@ -1,4 +1,4 @@
-package dev.seabat.kmp.tutorial
+package dev.seabat.kmp.tutorial.page.rocketlaunch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
