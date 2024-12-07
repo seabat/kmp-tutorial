@@ -23,9 +23,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun HomeScreen(
     homeViewModel: HomeViewModel = viewModel(),
     goToGreeting: (String) -> Unit = {},
-    goToGrep: () -> Unit = {}
+    goToGrep: () -> Unit = {},
+    goToRocketLaunch: () -> Unit = {}
 ) {
-    val rocketLaunchPhrase by homeViewModel.rocketLaunchPhrase.collectAsStateWithLifecycle()
     var showContent by remember { mutableStateOf(false) }
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -38,12 +38,14 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(painterResource(R.drawable.compose_multiplatform), null)
-                Text(rocketLaunchPhrase)
                 Button(onClick = { goToGreeting("HOMEから遷移") }) {
                     Text("Go to Greeting")
                 }
                 Button(onClick = { goToGrep() }) {
                     Text("Go to Grep")
+                }
+                Button(onClick = { goToRocketLaunch() }) {
+                    Text("Go to Rocket Launch")
                 }
             }
         }

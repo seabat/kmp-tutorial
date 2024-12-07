@@ -30,6 +30,9 @@ class MainActivity : ComponentActivity() {
                             },
                             goToGrep = {
                                 navController.navigate(Grep)
+                            },
+                            goToRocketLaunch = {
+                                navController.navigate(RocketLaunch)
                             }
                         )
                     }
@@ -45,6 +48,13 @@ class MainActivity : ComponentActivity() {
                     }
                     composable<Grep> {
                         GrepScreen(
+                            goBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    composable<RocketLaunch> {
+                        RocketLaunchScreen(
                             goBack = {
                                 navController.popBackStack()
                             }
@@ -67,6 +77,9 @@ data class Greeting(
 
 @Serializable
 object Grep
+
+@Serializable
+object RocketLaunch
 
 @Preview
 @Composable
