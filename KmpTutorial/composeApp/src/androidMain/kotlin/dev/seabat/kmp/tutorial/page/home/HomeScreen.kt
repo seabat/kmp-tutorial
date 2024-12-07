@@ -21,7 +21,6 @@ import dev.seabat.kmp.tutorial.R
 @Composable
 @Preview
 fun HomeScreen(
-    homeViewModel: HomeViewModel = viewModel(),
     goToGreeting: (String) -> Unit = {},
     goToGrep: () -> Unit = {},
     goToRocketLaunch: () -> Unit = {}
