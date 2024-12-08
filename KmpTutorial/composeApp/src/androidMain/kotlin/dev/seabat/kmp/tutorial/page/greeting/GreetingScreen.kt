@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingSharedViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +35,7 @@ fun GreetingScreen(
     goBack: () -> Unit = {}
 ) {
 
-    val greetingSharedViewModel = remember { GreetingSharedViewModel() }
+    val greetingSharedViewModel: GreetingSharedViewModel = viewModel()
     val phrases by greetingSharedViewModel.phrases.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
