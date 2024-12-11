@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class GreetingViewModel :
+class GreetingSharedViewModel :
     CoroutineViewModel(),
     KoinComponent {
     private val createPhrasesUseCase: CreatePhrasesUseCaseContract by inject()
