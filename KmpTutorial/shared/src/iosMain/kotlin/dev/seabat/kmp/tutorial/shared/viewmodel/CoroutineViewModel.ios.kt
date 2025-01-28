@@ -1,4 +1,4 @@
-package dev.seabat.kmp.tutorial.shared
+package dev.seabat.kmp.tutorial.shared.viewmodel
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
