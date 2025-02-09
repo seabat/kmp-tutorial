@@ -1,4 +1,4 @@
-package dev.seabat.kmp.tutorial.shared
+package dev.seabat.kmp.tutorial.shared.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

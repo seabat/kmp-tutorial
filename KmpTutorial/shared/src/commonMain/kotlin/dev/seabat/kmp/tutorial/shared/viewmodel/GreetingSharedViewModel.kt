@@ -1,6 +1,5 @@
 package dev.seabat.kmp.tutorial.shared.viewmodel
 
-import dev.seabat.kmp.tutorial.shared.CoroutineViewModel
 import dev.seabat.kmp.tutorial.shared.usecase.CreatePhrasesUseCaseContract
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
