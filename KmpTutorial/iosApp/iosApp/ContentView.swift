@@ -40,7 +40,7 @@ struct ContentView: View {
 extension ContentView {
     @MainActor
     class ViewModel: ObservableObject {
-        let viewModel: GreetingViewModel
+        let viewModel: GreetingSharedViewModel
         @Published var rocketLaunchPhrase: String = ""
         @Published var phrases:[String] = []
 
@@ -48,7 +48,7 @@ extension ContentView {
         private var didGrep = false
         
         init() {
-            viewModel = GreetingViewModel()
+            viewModel = GreetingSharedViewModel()
             viewModel.observePhrases { phrases in
                 self.phrases = phrases
             }
