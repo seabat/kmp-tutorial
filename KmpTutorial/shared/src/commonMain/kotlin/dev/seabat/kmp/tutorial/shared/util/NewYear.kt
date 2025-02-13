@@ -1,4 +1,4 @@
-package dev.seabat.kmp.tutorial.shared
+package dev.seabat.kmp.tutorial.shared.util
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
