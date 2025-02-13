@@ -2,6 +2,8 @@ package dev.seabat.kmp.tutorial.shared.di
 
 import dev.seabat.kmp.tutorial.shared.repository.PlatformRepository
 import dev.seabat.kmp.tutorial.shared.repository.PlatformRepositoryContract
+import dev.seabat.kmp.tutorial.shared.repository.RocketRepository
+import dev.seabat.kmp.tutorial.shared.repository.RocketRepositoryContract
 import dev.seabat.kmp.tutorial.shared.source.PlatformSource
 import dev.seabat.kmp.tutorial.shared.source.PlatformSourceContract
 import dev.seabat.kmp.tutorial.shared.usecase.CreatePhrasesUseCase
@@ -48,4 +50,5 @@ private val useCaseModule = module {
 private val repositoryModule = module {
     single<PlatformSourceContract> { PlatformSource(get()) }
     single<PlatformRepositoryContract> { PlatformRepository(get()) }
+    single<RocketRepositoryContract> { RocketRepository() }
 }
