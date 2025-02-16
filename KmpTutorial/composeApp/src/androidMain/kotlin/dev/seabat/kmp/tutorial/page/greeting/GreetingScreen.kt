@@ -18,7 +18,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +33,6 @@ fun GreetingScreen(
     id: Int = 0,
     goBack: () -> Unit = {}
 ) {
-
     val greetingSharedViewModel: GreetingSharedViewModel = viewModel()
     val phrases by greetingSharedViewModel.phrases.collectAsStateWithLifecycle()
 
@@ -69,7 +67,7 @@ fun GreetingScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Inside Greeting Screen, ${name}, $id")
+            Text(text = "Inside Greeting Screen, $name, $id")
             HorizontalDivider()
             phrases.forEach { phrase ->
                 Text(phrase)

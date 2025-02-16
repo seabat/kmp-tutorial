@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flow
 
 class LoadRocketLaunchInfoUseCase(
     private val rocketRepository: RocketRepositoryContract
-) : LoadRocketLaunchInfoUseCaseContract{
+) : LoadRocketLaunchInfoUseCaseContract {
 
     override operator fun invoke(): Flow<String> = flow {
         emit(rocketRepository.launchPhrase())

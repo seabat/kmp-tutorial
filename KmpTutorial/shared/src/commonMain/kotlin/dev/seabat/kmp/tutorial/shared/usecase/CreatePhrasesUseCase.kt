@@ -1,7 +1,7 @@
 package dev.seabat.kmp.tutorial.shared.usecase
 
-import dev.seabat.kmp.tutorial.shared.util.daysPhrase
 import dev.seabat.kmp.tutorial.shared.repository.PlatformRepositoryContract
+import dev.seabat.kmp.tutorial.shared.util.daysPhrase
 
 class CreatePhrasesUseCase(private val platformRepository: PlatformRepositoryContract) :
     CreatePhrasesUseCaseContract {
