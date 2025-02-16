@@ -2,10 +2,14 @@ package dev.seabat.kmp.tutorial.shared.di
 
 import dev.seabat.kmp.tutorial.shared.repository.PlatformRepository
 import dev.seabat.kmp.tutorial.shared.repository.PlatformRepositoryContract
+import dev.seabat.kmp.tutorial.shared.repository.RocketRepository
+import dev.seabat.kmp.tutorial.shared.repository.RocketRepositoryContract
 import dev.seabat.kmp.tutorial.shared.source.PlatformSource
 import dev.seabat.kmp.tutorial.shared.source.PlatformSourceContract
 import dev.seabat.kmp.tutorial.shared.usecase.CreatePhrasesUseCase
 import dev.seabat.kmp.tutorial.shared.usecase.CreatePhrasesUseCaseContract
+import dev.seabat.kmp.tutorial.shared.usecase.LoadRocketLaunchInfoUseCase
+import dev.seabat.kmp.tutorial.shared.usecase.LoadRocketLaunchInfoUseCaseContract
 import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingSharedViewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -43,9 +47,11 @@ private val viewModelModule = module {
 
 private val useCaseModule = module {
     single<CreatePhrasesUseCaseContract> { CreatePhrasesUseCase(get()) }
+    single<LoadRocketLaunchInfoUseCaseContract> { LoadRocketLaunchInfoUseCase(get()) }
 }
 
 private val repositoryModule = module {
     single<PlatformSourceContract> { PlatformSource(get()) }
     single<PlatformRepositoryContract> { PlatformRepository(get()) }
+    single<RocketRepositoryContract> { RocketRepository() }
 }

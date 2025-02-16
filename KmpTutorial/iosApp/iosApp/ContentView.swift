@@ -23,7 +23,7 @@ struct ContentView: View {
                         Text($0)
                     }.frame(height: 200)
                     Text(viewModel.rocketLaunchPhrase).task {
-                        await self.viewModel.startObserving()
+                        await self.viewModel.startRocketLaunchInfoObserving()
                     }
                     Text(viewModel.grepResult.description).task {
                         await self.viewModel.startGrep()
@@ -40,7 +40,8 @@ struct ContentView: View {
 extension ContentView {
     @MainActor
     class ViewModel: ObservableObject {
-        let viewModel: GreetingViewModel
+        let sharedViewModel: GreetingSharedViewModel
+        let loadRocketLaunchInfoUseCase: LoadRocketLaunchInfoUseCaseContract
         @Published var rocketLaunchPhrase: String = ""
         @Published var phrases:[String] = []
 
@@ -48,14 +49,15 @@ extension ContentView {
         private var didGrep = false
         
         init() {
-            viewModel = GreetingViewModel()
-            viewModel.observePhrases { phrases in
+            sharedViewModel = KoinHelperKt.getGreetingSharedViewModel()
+            loadRocketLaunchInfoUseCase = KoinHelperKt.getLoadRocketLaunchInfoUseCase()
+            sharedViewModel.observePhrases { phrases in
                 self.phrases = phrases
             }
         }
         
-        func startObserving() async {
-            for await phrase in RocketLaunchShared().getLaunchPhraseFlow() {
+        func startRocketLaunchInfoObserving() async {
+            for await phrase in LoadRocketLaunchInfoUseCase(rocketRepository: RocketRepository()).invoke() {
                 self.rocketLaunchPhrase = phrase
             }
         }

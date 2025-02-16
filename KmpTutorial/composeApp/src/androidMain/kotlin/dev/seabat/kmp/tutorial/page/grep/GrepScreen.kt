@@ -29,7 +29,6 @@ fun GrepScreen(
     grepViewModel: GrepViewModel = viewModel(),
     goBack: () -> Unit = {}
 ) {
-
     val grepResult by grepViewModel.grepResult.collectAsStateWithLifecycle()
 
     Scaffold(

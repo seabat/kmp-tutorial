@@ -1,4 +1,6 @@
-import dev.seabat.kmp.tutorial.shared.data.RocketLaunch
+package dev.seabat.kmp.tutorial.shared.repository
+
+import dev.seabat.kmp.tutorial.shared.util.log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -7,9 +9,11 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
-class RocketComponent {
+class RocketRepository : RocketRepositoryContract {
     private val httpClient = HttpClient {
         install(ContentNegotiation) {
             json(
@@ -23,16 +27,20 @@ class RocketComponent {
     }
 
     private suspend fun getDateOfLastSuccessfulLaunch(): String {
-        val rockets: List<RocketLaunch> =
+        val rockets: List<RocketLaunch> = try {
             httpClient.get("https://api.spacexdata.com/v4/launches").body()
+        } catch (e: Exception) {
+            log("Caught exception: ${e.message}")
+            throw e
+        }
         val lastSuccessLaunch = rockets.last { it.launchSuccess == true }
         val date = Instant.parse(lastSuccessLaunch.launchDateUTC)
             .toLocalDateTime(TimeZone.currentSystemDefault())
-
+        log("getDateOfLastSuccessfulLaunch: year=${date.year}")
         return "${date.month} ${date.dayOfMonth}, ${date.year}"
     }
 
-    suspend fun launchPhrase(): String =
+    override suspend fun launchPhrase(): String =
         try {
             "The last successful launch was on ${getDateOfLastSuccessfulLaunch()} 🚀"
         } catch (e: Exception) {
@@ -40,3 +48,15 @@ class RocketComponent {
             "Error occurred"
         }
 }
+
+@Serializable
+data class RocketLaunch(
+    @SerialName("flight_number")
+    val flightNumber: Int,
+    @SerialName("name")
+    val missionName: String,
+    @SerialName("date_utc")
+    val launchDateUTC: String,
+    @SerialName("success")
+    val launchSuccess: Boolean?
+)

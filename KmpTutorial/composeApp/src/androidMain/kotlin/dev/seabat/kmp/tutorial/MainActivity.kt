@@ -83,7 +83,7 @@ object Home
 @Serializable
 data class Greeting(
     val name: String,
-    val id: Int,
+    val id: Int
 )
 
 @Serializable

@@ -5,16 +5,16 @@ Kotlin Multiplatform アプリのチュートリアル集。
 
 ## KmpTutorial
 
-#### 概要
+### 概要
 
-Android/iOS をターゲットとする Kotlin Multiplatform プロジェクトを作る際のベースとして使用されることを目的としている。  
-Kotlin Multiplatform の[公式チュートリアル](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html) 実施後に以下のカスタマイズを加えている。
+Android/iOS をターゲットとする Kotlin Multiplatform プロジェクトをお試しで作る際、本リポジトリのコードをベースとして使用されることを目的としている。  
+本リポジトリは Kotlin Multiplatform の[公式チュートリアル](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html) 実施後に README に記載したカスタマイズを実施している。
 
-##### Compose Multiplatform 要素を削除
+### Compose Multiplatform 要素を削除
 
 [Kotlin Multiplatform Wizard](https://kmp.jetbrains.com/?_gl=1*1bk2vxi*_gcl_au*MTE4ODEwMDk0OS4xNzMyNDMxOTE4*FPAU*MTE4ODEwMDk0OS4xNzMyNDMxOTE4*_ga*MTg4MzY4NzgyNC4xNjgzOTY0MzAx*_ga_9J976DJZ68*MTczMzkyMDAwNC4xMjcuMC4xNzMzOTIwMDA4LjU2LjAuMA..) で 「Do not share UI (use only SwiftUI)」を選択してプロジェクトを作成性た場合でも、 Compose Multiplatform 要素が含まれてしまう。UI は Android/iOS 側でそれぞれ実装したいので、Compose Multiplatform 要素を削除した。
 
-##### ktlinter の導入
+### ktlinter を導入
 
 [ktlinter](https://github.com/jeremymailen/kotlinter-gradle)ラッパーを適用した。
 以下の ktlint をコマンド実行すると composeApp モジュールと shared モジュールに lint を実行できる。
@@ -27,7 +27,7 @@ Kotlin Multiplatform の[公式チュートリアル](https://www.jetbrains.com/
 ./gradlew formatKotlin 
 ```
 
-##### ProGuard/R8 の適用
+### ProGuard/R8 の適用
 
 リリースビルドで [ProGuard/R8](https://developer.android.com/build/shrink-code?hl=ja) が適用される。
 
@@ -40,92 +40,42 @@ Kotlin Multiplatform の[公式チュートリアル](https://www.jetbrains.com/
     }
 ```
 
-##### shared モジュールに Android の [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel?hl=ja) ライクなクラスを追加
+### shared モジュールの機能と I/F 
 
-```kotlin
-class GreetingSharedViewModel :
-    CoroutineViewModel(),
-    KoinComponent {
-    private val createPhrasesUseCase: CreatePhrasesUseCaseContract by inject()
+shared モジュールが持つ機能と、Android、 iOS の両OS モジュールへの I/F は以下。
 
-    private val _phrases = MutableStateFlow<List<String>>(emptyList())
-    val phrases: StateFlow<List<String>> = _phrases
+|                  |I/F   |
+|------------------|------|
+|**データの grep機能**|関数  |
+|**ロケット発射情報取得機能**|Use Case クラス  |
+|**あいさつ文言取得取得機能**|ViewModel ライクなクラス  |
 
-    /**
-     * フレーズを読み込む (Android 向け)
-     *
-     * - Android は coroutine で取得した値を StateFlow で受け取る
-     */
-    fun loadPhrases() =
-        coroutineScope.launch {
-            _phrases.update {
-                createPhrasesUseCase.invoke()
-            }
-        }
 
-    /**
-     * フレーズの監視を開始する (iOS 向け)
-     *
-     * - iOS は StateFlow を扱えないので coroutine で取得した値をクロージャの中で受け取る
-     *
-     * @param onChange
-     */
-    fun observePhrases(onChange: (List<String>) -> Unit) {
-        coroutineScope.launch {
-            onChange(
-                createPhrasesUseCase.invoke()
-            )
-        }
-    }
-}
-```
+##### データの grep機能
 
-Android 側から shared に定義した ViewModel を参照する。
+<img src="KmpTutorial/docs/if_grep.png" width="300">
 
-```kotlin
-@Composable
-fun GreetingScreen() {
-    val greetingSharedViewModel: GreetingSharedViewModel = viewModel()
- (省略)   
- ```   
 
-##### shared モジュールに [Android 推奨アーキテクチャー](https://developer.android.com/topic/architecture?hl=ja)の UseCase・Repository・DataSource クラスを追加
+##### ロケット発射情報取得機
 
-ViewModel から UseCase を参照。
+<img src="KmpTutorial/docs/if_usecase.png" width="500">
 
-```kotlin
-class GreetingSharedViewModel :
-    CoroutineViewModel(),
-    KoinComponent {
-    private val createPhrasesUseCase: CreatePhrasesUseCaseContract by inject()
- ```   
 
-UseCase から Repository を参照。
+##### あいさつ文言取得取得機能
 
-```kotlin
-class CreatePhrasesUseCase(private val platformRepository: PlatformRepositoryContract) :
-    CreatePhrasesUseCaseContract {
-    override suspend fun invoke(): List<String> = buildList {
-        add("Hello, ${platformRepository.getPlatformName()}!")
-        add(daysPhrase())
-    }
-}
-```
+<img src="KmpTutorial/docs/if_viewmodel.png" width="500">
 
-Repository から DataSource を参照。
 
-```kotlin
-class PlatformRepository(private val platformSource: PlatformSourceContract) :
-    PlatformRepositoryContract {
-    override fun getPlatformName(): String = platformSource.getPlatformName()
-}
-```
+#### shared モジュールに [Android 推奨アーキテクチャー](https://developer.android.com/topic/architecture?hl=ja)を適用
 
-##### Koint を導入
+<img src="KmpTutorial/docs/if_architecture.png" width="700">
+
+
+### Koin を導入
 
 [Koin](https://insert-koin.io/) で DI する
 
-#####  Unit テストのリファレンスコードを追加
+###  Unit テストコード
 
 UseCase の Unit テスト。
 
@@ -160,7 +110,7 @@ class PlatformRepositoryTest {
 }
 ```
 
-#### スクリーンショット
+### スクリーンショット
 
 Android
 
