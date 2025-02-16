@@ -1,6 +1,5 @@
 package dev.seabat.kmp.tutorial.shared.repository
 
-import dev.seabat.kmp.tutorial.shared.data.RocketLaunch
 import dev.seabat.kmp.tutorial.shared.util.log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -10,6 +9,8 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 class RocketRepository : RocketRepositoryContract {
@@ -47,3 +48,15 @@ class RocketRepository : RocketRepositoryContract {
             "Error occurred"
         }
 }
+
+@Serializable
+data class RocketLaunch(
+    @SerialName("flight_number")
+    val flightNumber: Int,
+    @SerialName("name")
+    val missionName: String,
+    @SerialName("date_utc")
+    val launchDateUTC: String,
+    @SerialName("success")
+    val launchSuccess: Boolean?
+)
