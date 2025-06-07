@@ -43,17 +43,17 @@ fun initKoin() {
 }
 
 // inject を実行するクラスを定義する
-private val viewModelModule = module {
+val viewModelModule = module {
     single { GreetingSharedViewModel() }
 }
 
-private val useCaseModule = module {
+val useCaseModule = module {
     single<CreatePhrasesUseCaseContract> { CreatePhrasesUseCase(get()) }
     single<GrepUseCaseContract> { GrepUseCase() }
     single<LoadRocketLaunchInfoUseCaseContract> { LoadRocketLaunchInfoUseCase(get()) }
 }
 
-private val repositoryModule = module {
+val repositoryModule = module {
     single<PlatformSourceContract> { PlatformSource(get()) }
     single<PlatformRepositoryContract> { PlatformRepository(get()) }
     single<RocketRepositoryContract> { RocketRepository() }
