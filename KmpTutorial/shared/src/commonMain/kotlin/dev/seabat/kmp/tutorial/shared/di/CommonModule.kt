@@ -8,6 +8,8 @@ import dev.seabat.kmp.tutorial.shared.source.PlatformSource
 import dev.seabat.kmp.tutorial.shared.source.PlatformSourceContract
 import dev.seabat.kmp.tutorial.shared.usecase.CreatePhrasesUseCase
 import dev.seabat.kmp.tutorial.shared.usecase.CreatePhrasesUseCaseContract
+import dev.seabat.kmp.tutorial.shared.usecase.GrepUseCase
+import dev.seabat.kmp.tutorial.shared.usecase.GrepUseCaseContract
 import dev.seabat.kmp.tutorial.shared.usecase.LoadRocketLaunchInfoUseCase
 import dev.seabat.kmp.tutorial.shared.usecase.LoadRocketLaunchInfoUseCaseContract
 import dev.seabat.kmp.tutorial.shared.viewmodel.GreetingSharedViewModel
@@ -47,6 +49,7 @@ private val viewModelModule = module {
 
 private val useCaseModule = module {
     single<CreatePhrasesUseCaseContract> { CreatePhrasesUseCase(get()) }
+    single<GrepUseCaseContract> { GrepUseCase() }
     single<LoadRocketLaunchInfoUseCaseContract> { LoadRocketLaunchInfoUseCase(get()) }
 }
 

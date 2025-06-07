@@ -42,6 +42,7 @@ extension ContentView {
     class ViewModel: ObservableObject {
         let sharedViewModel: GreetingSharedViewModel
         let loadRocketLaunchInfoUseCase: LoadRocketLaunchInfoUseCaseContract
+        let grepUseCase: GrepUseCaseContract
         @Published var rocketLaunchPhrase: String = ""
         @Published var phrases:[String] = []
 
@@ -51,13 +52,14 @@ extension ContentView {
         init() {
             sharedViewModel = KoinHelperKt.getGreetingSharedViewModel()
             loadRocketLaunchInfoUseCase = KoinHelperKt.getLoadRocketLaunchInfoUseCase()
+            grepUseCase = KoinHelperKt.getGrepUseCase()
             sharedViewModel.observePhrases { phrases in
                 self.phrases = phrases
             }
         }
         
         func startRocketLaunchInfoObserving() async {
-            for await phrase in LoadRocketLaunchInfoUseCase(rocketRepository: RocketRepository()).invoke() {
+            for await phrase in loadRocketLaunchInfoUseCase.invoke() {
                 self.rocketLaunchPhrase = phrase
             }
         }
@@ -65,8 +67,8 @@ extension ContentView {
         func startGrep() async {
             guard !self.didGrep else { return } // 初回表示時のみ実行
             self.didGrep = true
-            
-            grep(
+
+            grepUseCase.invoke(
                 lines: ["123 abc", "abc 123", "123 ABC", "ABC 123"],
                 pattern: String("[A-Z]+"),
                 action: {(result: String) -> Void in
