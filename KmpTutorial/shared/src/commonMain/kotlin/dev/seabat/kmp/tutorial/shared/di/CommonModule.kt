@@ -17,31 +17,6 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-// for Android
-fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
-    appDeclaration()
-    modules(
-        useCaseModule,
-        repositoryModule,
-        viewModelModule,
-        platformModule
-    )
-}
-
-// for iOS
-// Kotlin の関数は  [ファイル名]Kt.do[関数名]() として Swift から呼び出す。
-// CommonModuleKt.doInitKoin()
-fun initKoin() {
-    startKoin {
-        modules(
-            useCaseModule,
-            repositoryModule,
-            viewModelModule,
-            platformModule
-        )
-    }
-}
-
 // inject を実行するクラスを定義する
 val viewModelModule = module {
     single { GreetingSharedViewModel() }
@@ -57,4 +32,30 @@ val repositoryModule = module {
     single<PlatformSourceContract> { PlatformSource(get()) }
     single<PlatformRepositoryContract> { PlatformRepository(get()) }
     single<RocketRepositoryContract> { RocketRepository() }
+}
+
+val koinModules = listOf(
+    viewModelModule,
+    useCaseModule,
+    repositoryModule,
+    platformModule
+)
+
+// for Android
+fun initKoin(appDeclaration: KoinAppDeclaration) = startKoin {
+    appDeclaration()
+    modules(
+        koinModules
+    )
+}
+
+// for iOS
+// Kotlin の関数は  [ファイル名]Kt.do[関数名]() として Swift から呼び出す。
+// CommonModuleKt.doInitKoin()
+fun initKoin() {
+    startKoin {
+        modules(
+            koinModules
+        )
+    }
 }
